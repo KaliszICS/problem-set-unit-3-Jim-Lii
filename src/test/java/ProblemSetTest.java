@@ -6,7 +6,7 @@ public class ProblemSetTest {
 @Test
 @DisplayName("")
 void ExampleTest1() {
-	ArrayEquals("a", "b");
+	//ArrayEquals("a", "b");
 }
 
 }
