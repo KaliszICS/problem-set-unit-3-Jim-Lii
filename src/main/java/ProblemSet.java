@@ -2,7 +2,7 @@
 File Name: Problem Set Unit 3 (100%)
 Author: Jim Li
 Date Created: Mar. 27, 2026
-Date Last Modified: Mar. 30, 2026
+Date Last Modified: Mar. 31, 2026
 */
 
 import java.util.Scanner;
@@ -36,7 +36,7 @@ public class ProblemSet {
         System.out.println(result(reason2, email2));
 	}
 
-	//validation method
+	//validation
 	public static String validate(String email) {
 		if (!email.contains("@")) { //step 1.1 - contains @?
 			return "Missing @";
@@ -72,16 +72,17 @@ public class ProblemSet {
 	    //exception A - only applies if original reason was invalid and multiple dots in domain
 		if (!reason.equals("Valid")) {
 		    String domain = email.substring(email.indexOf("@") + 1);
-		    if (domain.indexOf(".") != domain.lastIndexOf(".")){ //checks for multiple dots
-			    reason = validate(exceptionA(email)); //reattempt validation
+		    if (domain.indexOf(".") != domain.lastIndexOf(".")){ //check for multiple dots
+			    reason = validate(exceptionA(email));
 		    }
 		}
 		//exception B - only applies if original attempt was valid (second check)
 		boolean exceptionB = false;
 		if (reason.equals("Valid")) {
 			reason = exceptionB(email);
+		    //Exception C was cancelling exception B so I added this
 			if (!reason.equals("Valid")){
-			    exceptionB = true; //gmail was cancelling exception B so I added this
+			    exceptionB = true;
 			}
 		}
 		//exception C - only applies if domain is gmail.com and exception B was valid
@@ -98,7 +99,7 @@ public class ProblemSet {
 	public static String exceptionA(String email) {
 	    String local = email.substring(0, email.indexOf("@"));
 	    String domain = email.substring(email.indexOf("@") + 1);
-		String domainExtension = domain.substring(domain.lastIndexOf(".")); //extract domain extension + dot
+		String domainExtension = domain.substring(domain.lastIndexOf(".")); //domain extension + dot
 		String trimmedDomain = domain.substring(0, domain.lastIndexOf(".")); //remove domain extension
 		trimmedDomain = trimmedDomain.replace(".", ""); //remove dots
 		email = local + "@" + trimmedDomain + domainExtension; //reassemble everything
@@ -133,16 +134,19 @@ public class ProblemSet {
 	
 	//result method
 	public static String result(String reason, String email){
-	    	if (reason.equals("Valid")) {
-		    String local = email.substring(0, email.indexOf("@"));
-	    	String domain = email.substring(email.indexOf("@") + 1);
-			System.out.print(email + ": Valid ");
-			if (domain.equals("gmail.com")) {
-				System.out.print("(Gmail normalized) ");
-			}
-			return "| Local: " + local + " | Domain: " + domain;
-		    } else {
-		    	return email + ": Invalid: " + reason;
+	    //if valid
+	    if (reason.equals("Valid")) {
+		String local = email.substring(0, email.indexOf("@"));
+	    String domain = email.substring(email.indexOf("@") + 1);
+		System.out.print(email + ": Valid ");
+		//print (Gmail normalised) if domain is gmail.com
+		if (domain.equals("gmail.com")) {
+			System.out.print("(Gmail normalized) ");
+		}
+		return "| Local: " + local + " | Domain: " + domain;
+		//if invalid
+		} else {
+		    return email + ": Invalid: " + reason;
 		}
 	}
 }
