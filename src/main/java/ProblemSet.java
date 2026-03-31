@@ -55,13 +55,13 @@ public class ProblemSet {
 				return "Local part too short";
 			} else if (!domain.contains(".")) { //step 5 - domain contains dot?
 				return "No dot in domain";
-			} else { //extracts domain extension and its length
+			} else {
 				String domainExtension = domain.substring(domain.indexOf(".") + 1);
 				int domainExtensionLength = domainExtension.length();
 				if (domainExtensionLength < 2 || domainExtensionLength > 6) { //step 6 - extension has 2 to 6 chars?
 					return "Invalid domain extension length";
 				} else {
-					return "Valid"; //if all steps passed, return "Valid"
+					return "Valid"; //if all passed
 				}
 			}
 		}
@@ -69,14 +69,14 @@ public class ProblemSet {
 	
 	//exception checks, combined
 	public static String exceptionCheck(String email, String reason) {
-	    //exception A - only applies if original reason was invalid and multiple dots in domain
+	    //exception A
 		if (!reason.equals("Valid")) {
 		    String domain = email.substring(email.indexOf("@") + 1);
-		    if (domain.indexOf(".") != domain.lastIndexOf(".")){ //check for multiple dots
-			    reason = validate(exceptionA(email));
+		    if (domain.indexOf(".") != domain.lastIndexOf(".")){
+			    reason = exceptionA(email);
 		    }
 		}
-		//exception B - only applies if original attempt was valid (second check)
+		//exception B
 		boolean exceptionB = false;
 		if (reason.equals("Valid")) {
 			reason = exceptionB(email);
@@ -85,25 +85,25 @@ public class ProblemSet {
 			    exceptionB = true;
 			}
 		}
-		//exception C - only applies if domain is gmail.com and exception B was valid
+		//exception C
 		if (!reason.equals("Valid") && exceptionB == false) {
 		    String domain = email.substring(email.indexOf("@") + 1);
 			if (domain.equals("gmail.com")) {
-				reason = validate(exceptionC(email)); //remove dots and reattempt validation
+				reason = validate(exceptionC(email));
 			}
 		}
 		return reason;
 	}
 
-	//exception A - removes all dots in the domain (except the final one) then revalidates 
+	//exception A - removes all dots in the domain
 	public static String exceptionA(String email) {
 	    String local = email.substring(0, email.indexOf("@"));
 	    String domain = email.substring(email.indexOf("@") + 1);
-		String domainExtension = domain.substring(domain.lastIndexOf(".")); //domain extension + dot
-		String trimmedDomain = domain.substring(0, domain.lastIndexOf(".")); //remove domain extension
-		trimmedDomain = trimmedDomain.replace(".", ""); //remove dots
-		email = local + "@" + trimmedDomain + domainExtension; //reassemble everything
-		return validate(email); //return new reason
+		String domainExtension = domain.substring(domain.lastIndexOf("."));
+		String trimmedDomain = domain.substring(0, domain.lastIndexOf("."));
+		trimmedDomain = trimmedDomain.replace(".", "");
+		email = local + "@" + trimmedDomain + domainExtension;
+		return validate(email);
 	}
 
 	//exception B - works by checking email beginning and domain extension for stuff
@@ -119,7 +119,7 @@ public class ProblemSet {
 			} else if (domain.contains("_")){ //domain contains underscore?
 			    return "Domain contains underscore";
 			} else {
-				return "Valid"; //valid if all conditions passed
+				return "Valid"; //if all passed
 			}
 		}
 	}
@@ -139,7 +139,6 @@ public class ProblemSet {
 		String local = email.substring(0, email.indexOf("@"));
 	    String domain = email.substring(email.indexOf("@") + 1);
 		System.out.print(email + ": Valid ");
-		//print (Gmail normalised) if domain is gmail.com
 		if (domain.equals("gmail.com")) {
 			System.out.print("(Gmail normalized) ");
 		}
