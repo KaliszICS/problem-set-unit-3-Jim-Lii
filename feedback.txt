@@ -1,0 +1,7 @@
+K(30%): 100
+I(30%): 96
+C(10%): 100
+A(30%): 96
+97.6%
+
+Great work Jim.  Just one small thing.  A starting dot should be valid if the email's domain is gmail (it would remove the dot).
